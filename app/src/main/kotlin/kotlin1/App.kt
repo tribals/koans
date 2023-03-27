@@ -1,12 +1,12 @@
 package kotlin1
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
-// import io.ktor.http.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 fun main() {
     processUrlRebustly(32000, 624, "https://httpbin.org/status/400")
@@ -41,14 +41,13 @@ fun processUrlRebustly(timeout: Long, retry_delay: Long, url: String) = runBlock
             .retry { ex ->
                 (ex is ClientRequestException).also { if (it) delay(retry_delay) }
             }
-            .collect()
+            .collect { println("+") }  // should never happen
         }
     } catch (e: TimeoutCancellationException) {
-        println("Global timeout exceeded!")
+        println("Global timeout exceeded!\n${e}")
     }
 }
 
 fun download(client: HttpClient, url: String): Flow<HttpResponse> = flow {
-    val resp = client.get<HttpResponse>(url)
-    emit(resp)
+    emit(client.get(url))
 }
