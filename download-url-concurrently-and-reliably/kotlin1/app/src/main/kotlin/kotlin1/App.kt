@@ -9,8 +9,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
 fun main() {
-    processUrlRebustly(32000, 624, "https://httpbin.org/status/400")
     // processSimple()
+    processUrlReliably(32000, 624, "https://httpbin.org/status/400")
 }
 
 // fun processSimple() = runBlocking {
@@ -30,7 +30,7 @@ fun main() {
 //     }
 // }
 
-fun processUrlRebustly(timeout: Long, retry_delay: Long, url: String) = runBlocking {
+fun processUrlReliably(timeout: Long, retry_delay: Long, url: String) = runBlocking {
     val client = HttpClient(CIO) {
         expectSuccess = true
     }
@@ -39,7 +39,12 @@ fun processUrlRebustly(timeout: Long, retry_delay: Long, url: String) = runBlock
         withTimeout(timeout) {
             download(client, url)
             .retry { ex ->
-                (ex is ClientRequestException).also { if (it) delay(retry_delay) }
+                (ex is ClientRequestException).also {
+                    if (it) {
+                        delay(retry_delay)
+                        print(".")
+                    }
+                }
             }
             .collect { println("+") }  // should never happen
         }

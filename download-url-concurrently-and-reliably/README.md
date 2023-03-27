@@ -1,15 +1,11 @@
-# Install
+# How to retrieve something concurrently and reliably at the same time?
 
-Execute this command:
+It must me cancellable (for example, after specified timeout), too.
 
-```console
-$ gradle wrapper --gradle-version 7.5.1
-```
+# to/do:
 
-# Evaluate
-
-After it completes, run tests:
-
-```console
-$ ./gradlew test
-```
+- [x] golang (credits @mikhail_zhukov)
+- [x] kotlin
+- [ ] clojure (still has no lightweight concurrency)?
+- [ ] guile (fibers)
+- [ ] lua?
