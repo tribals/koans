@@ -23,7 +23,7 @@ class URL(str, Phantom, predicate=is_url_address):
 # presume that an empty URL is a nonsense
 def test_empty_url():
     with pytest.raises(TypeError, match="Could not parse .* from ''"):
-        ReachableURL.parse("")
+        URL.parse("")
 
 
 # is it enough now?
@@ -48,6 +48,7 @@ def test_empty_reachable_url():
         ReachableURL.parse("")
 
 
+# but "empty" for an URL is not just "empty string"
 def test_reachable_url_probably_wrong_host():
     assert ReachableURL.parse("http://example")
 
@@ -66,7 +67,7 @@ def test_constructor():
     assert ReachableURL("http://example.com")
 
 
-# bit it *is* `str`
+# but it *is* `str`
 def test_url_is_str():
     assert isinstance(ReachableURL("http://example.com"), str)
 
