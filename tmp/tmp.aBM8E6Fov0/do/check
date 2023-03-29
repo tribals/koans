@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -x
+
+set -o errexit
+set -o nounset
+
+exec do/venv mypy --check-untyped-defs "$@"
