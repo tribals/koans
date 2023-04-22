@@ -9,7 +9,7 @@ license = "WTFPL"
 python = "^3.10"
 pytest = "~7.2"
 mypy = "0.991"
-phantom-types = "~1.1"
+phantom-types = "~1.2"
 
 [tool.poetry.dev-dependencies]
 
